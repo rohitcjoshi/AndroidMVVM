@@ -7,9 +7,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [Word::class], version = 1)
+@Database(entities = [Word::class], version = 2)
 public abstract class WordRoomDatabase : RoomDatabase() {
     companion object {
         @Volatile
@@ -24,7 +25,7 @@ public abstract class WordRoomDatabase : RoomDatabase() {
                     context.applicationContext,
                     WordRoomDatabase::class.java,
                     "Words_Database"
-                ).addCallback(WordDatabaseCallback(scope)).build()
+                ).addCallback(WordDatabaseCallback(scope)).fallbackToDestructiveMigration().build()
                 INSTANCE = instance
                 return INSTANCE!!
             }
@@ -35,10 +36,10 @@ public abstract class WordRoomDatabase : RoomDatabase() {
 
     private class WordDatabaseCallback(private val scope: CoroutineScope) :
         RoomDatabase.Callback() {
-        override fun onOpen(db: SupportSQLiteDatabase) {
+        override fun onCreate(db: SupportSQLiteDatabase) {
             super.onOpen(db)
             INSTANCE?.let { wordRoomDatabase ->
-                scope.launch {
+                scope.launch (Dispatchers.IO){
                     Log.d("WordDatabaseCallback", "Adding WordDatabaseCallback----------------->>>>")
                     populateDatabase(wordRoomDatabase.wordDao())
                 }
@@ -46,16 +47,11 @@ public abstract class WordRoomDatabase : RoomDatabase() {
         }
 
         private fun populateDatabase(dao: WordDao) {
-            if(dao.getCount().value!! > 0) {
-                Log.d("populateDatabase", "COunter of db is ${dao.getCount().value}")
-            } else {
-                Log.d("populateDatabase", "Adding dummy data")
-                dao.insert(Word(0, "Default 1"))
-                dao.insert(Word(0, "Default 2"))
-            }
+            dao.deleteAll()
+            Log.d("populateDatabase", "Adding dummy data")
+            dao.insert(Word(0, "Hello"))
+            dao.insert(Word(0, "Word"))
+
         }
-
-
     }
-
 }

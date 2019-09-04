@@ -27,13 +27,13 @@ class NewWordActivity : AppCompatActivity() {
         button.setOnClickListener {
             val replyIntent = Intent()
             if(TextUtils.isEmpty(editWordView.text)) {
-                Toast.makeText(this, "Enter some text..!", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Enter some text..! Word cannot be empty..!", Toast.LENGTH_LONG).show()
             } else {
                 val word = editWordView.text.toString()
                 replyIntent.putExtra(REPLY_INTENT_PARAM, word)
                 setResult(Activity.RESULT_OK, replyIntent)
+                finish()
             }
-            finish()
         }
     }
 
