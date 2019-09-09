@@ -6,29 +6,27 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.databinding.DataBindingUtil
-import com.rohit.kotlin.testdatabinding.databinding.ActivityMainBinding
+import com.rohit.kotlin.testdatabinding.databinding.TestLayoutBinding
+
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var contentBinding: ActivityMainBinding
+    lateinit var contentBinding: TestLayoutBinding
     lateinit var clickHandlers: ClickHandlers
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.test_layout)
 
         clickHandlers = ClickHandlers(this)
-        contentBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        val userModel: UserModel = UserModel()
-        userModel.userName = "rohit"
-        userModel.password = "test123#"
+        contentBinding = DataBindingUtil.setContentView(this, R.layout.test_layout)
+        contentBinding.lifecycleOwner = this
+
+        val userModel = UserModel.create("username", "test123#")
 
         contentBinding.userModel = userModel
         contentBinding.clickHandler = clickHandlers
 
-        contentBinding.btnLogin.setOnClickListener {
-
-        }
     }
 
     inner class ClickHandlers(context: Context) {
