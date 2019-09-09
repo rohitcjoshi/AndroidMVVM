@@ -23,11 +23,10 @@ class MainActivity : AppCompatActivity() {
         contentBinding = DataBindingUtil.setContentView(this, R.layout.test_layout)
         contentBinding.lifecycleOwner = this
 
-        val userModel = UserModel.create("username", "test123#")
+        val userModel = UserModel.create("username", "lastname")
 
         contentBinding.userModel = userModel
         contentBinding.clickHandler = clickHandlers
-
     }
 
     inner class ClickHandlers(context: Context) {
