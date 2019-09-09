@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.databinding.DataBindingUtil
+import com.rohit.kotlin.testdatabinding.data.UserModel
 import com.rohit.kotlin.testdatabinding.databinding.TestLayoutBinding
 
 
@@ -32,11 +33,7 @@ class MainActivity : AppCompatActivity() {
     inner class ClickHandlers(context: Context) {
         fun onButtonClick(view: View) {
             Log.d("OnClicked", "Button clicked here ------------>>>>>>>>")
-            contentBinding.tvDataBindingTest.text = contentBinding.etUserName.text.toString()
-        }
 
-        fun onOtherButtonClick(view: View) {
-            Log.d("OnClicked", "Other Button clicked here ------------>>>>>>>>")
         }
     }
 }

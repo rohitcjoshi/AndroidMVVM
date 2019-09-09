@@ -4,7 +4,7 @@
     <data>
         <variable
             name="userModel"
-            type="com.rohit.kotlin.testdatabinding.UserModel" />
+            type="com.rohit.kotlin.testdatabinding.data.UserModel" />
 
         <variable
             name="clickHandler"
@@ -26,33 +26,33 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:ems="10"
-            android:hint="User name"
-            android:text="@={userModel.userName}"
+            android:hint="First name"
+            android:text="@={userModel.firstName}"
             android:inputType="textPersonName" />
 
         <EditText
-            android:id="@+id/etPassword"
+            android:id="@+id/etLastName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:ems="10"
-            android:hint="Password"
-            android:text="@={userModel.password}"
-            android:inputType="textPassword" />
+            android:hint="Last name"
+            android:text="@={userModel.lastName}"
+            android:inputType="textPersonName" />
 
         <Button
             android:id="@+id/btnLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="@{clickHandler::onButtonClick}"
-            android:text="Login" />
+            android:text="Submit" />
 
         <TextView
             android:id="@+id/tvDataBindingTest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="@={userModel.userName}"
+            android:text="@{userModel.firstName + ' ' + userModel.lastName}"
             android:textSize="18sp" />
 
     </LinearLayout>
