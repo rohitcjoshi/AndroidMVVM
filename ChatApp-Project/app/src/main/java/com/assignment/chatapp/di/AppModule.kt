@@ -16,6 +16,10 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 abstract class AppModule {
 
+    @Binds
+    @Singleton
+    abstract fun bindChatRepository(chatRepositoryImpl: ChatRepositoryImpl): ChatRepository
+
     companion object {
         @Provides
         @Singleton
