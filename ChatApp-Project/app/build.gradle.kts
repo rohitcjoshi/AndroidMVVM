@@ -10,7 +10,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.chatapp"
+        applicationId = "com.assignment.chatapp"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -78,7 +78,7 @@ dependencies {
     // Hilt
     val hiltVersion = "2.51.1"
     implementation("com.google.dagger:hilt-android:$hiltVersion")
-    kapt("com.google.dagger:hilt-compiler:$hiltVersion")
+    kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
 
     // Testing
     testImplementation("junit:junit:4.13.2")
