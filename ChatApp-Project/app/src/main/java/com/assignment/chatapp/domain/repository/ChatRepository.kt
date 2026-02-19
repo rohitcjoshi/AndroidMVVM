@@ -22,6 +22,11 @@ interface ChatRepository {
     suspend fun addMessage(message: Message)
     
     /**
+     * Deletes a message from the chat.
+     */
+    suspend fun deleteMessage(messageId: String)
+    
+    /**
      * Gets all messages (snapshot).
      */
     suspend fun getMessages(): List<Message>

@@ -27,6 +27,13 @@ class ChatMessagesDataSource @Inject constructor() {
     }
     
     /**
+     * Deletes a message from the in-memory storage.
+     */
+    suspend fun deleteMessage(messageId: String) {
+        _messages.value = _messages.value.filter { it.id != messageId }
+    }
+    
+    /**
      * Gets current messages snapshot.
      */
     fun getMessages(): List<Message> = _messages.value

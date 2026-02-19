@@ -31,6 +31,10 @@ class ChatRepositoryImpl @Inject constructor(
         chatMessagesDataSource.addMessage(dataMessage)
     }
     
+    override suspend fun deleteMessage(messageId: String) {
+        chatMessagesDataSource.deleteMessage(messageId)
+    }
+    
     override suspend fun getMessages(): List<Message> {
         val dataMessages = chatMessagesDataSource.getMessages()
         return MessageMapper.toDomainList(dataMessages)

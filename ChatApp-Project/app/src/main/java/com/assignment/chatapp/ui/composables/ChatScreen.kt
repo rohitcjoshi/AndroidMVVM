@@ -7,6 +7,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,6 +26,7 @@ fun ChatScreen(
     uiState: ChatUiState,
     onInputChange: (String) -> Unit,
     onSendClick: () -> Unit,
+    onMessageDelete: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -34,6 +37,7 @@ fun ChatScreen(
         // Messages list
         MessageList(
             messages = uiState.messages,
+            onMessageDelete = onMessageDelete,
             modifier = Modifier.weight(1f)
         )
 
@@ -53,6 +57,7 @@ fun ChatScreen(
 @Composable
 fun MessageList(
     messages: List<Message>,
+    onMessageDelete: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val listState = rememberLazyListState()
@@ -72,7 +77,10 @@ fun MessageList(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(messages, key = { it.id }) { message ->
-            MessageBubble(message = message)
+            MessageBubble(
+                message = message,
+                onDeleteClick = onMessageDelete
+            )
         }
     }
 }
@@ -85,6 +93,7 @@ fun MessageList(
 @Composable
 fun MessageBubble(
     message: Message,
+    onDeleteClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -104,15 +113,37 @@ fun MessageBubble(
             },
             modifier = Modifier.widthIn(max = 280.dp)
         ) {
-            Text(
-                text = message.text,
+            Row(
                 modifier = Modifier.padding(15.dp),
-                color = if (message.isUserMessage) {
-                    MaterialTheme.colorScheme.onPrimary
-                } else {
-                    MaterialTheme.colorScheme.onSecondaryContainer
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = message.text,
+                    modifier = Modifier.weight(1f),
+                    color = if (message.isUserMessage) {
+                        MaterialTheme.colorScheme.onPrimary
+                    } else {
+                        MaterialTheme.colorScheme.onSecondaryContainer
+                    }
+                )
+                
+                Spacer(modifier = Modifier.width(8.dp))
+                
+                IconButton(
+                    onClick = { onDeleteClick(message.id) },
+                    modifier = Modifier.size(24.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = "Delete message",
+                        tint = if (message.isUserMessage) {
+                            MaterialTheme.colorScheme.onPrimary
+                        } else {
+                            MaterialTheme.colorScheme.onSecondaryContainer
+                        }
+                    )
                 }
-            )
+            }
         }
     }
 }

@@ -2,6 +2,7 @@ package com.assignment.chatapp.ui.viewmodel
 
 import app.cash.turbine.test
 import com.assignment.chatapp.domain.model.Message
+import com.assignment.chatapp.domain.usecase.DeleteMessageUseCase
 import com.assignment.chatapp.domain.usecase.GenerateAutoReplyUseCase
 import com.assignment.chatapp.domain.usecase.GetMessagesUseCase
 import com.assignment.chatapp.domain.usecase.SendMessageUseCase
@@ -22,6 +23,7 @@ class ChatViewModelTest {
     private lateinit var sendMessageUseCase: SendMessageUseCase
 
     private lateinit var generateAutoReplyUseCase: GenerateAutoReplyUseCase
+    private lateinit var deleteMessageUseCase: DeleteMessageUseCase
     private lateinit var viewModel: ChatViewModel
     private val testDispatcher = StandardTestDispatcher()
 
@@ -32,11 +34,12 @@ class ChatViewModelTest {
         getMessagesUseCase = mockk()
         sendMessageUseCase = mockk(relaxed = true)
         generateAutoReplyUseCase = mockk(relaxed = true)
+        deleteMessageUseCase = mockk(relaxed = true)
         
         // Default: empty messages
         every { getMessagesUseCase() } returns flowOf(emptyList())
         
-        viewModel = ChatViewModel(getMessagesUseCase, sendMessageUseCase, generateAutoReplyUseCase)
+        viewModel = ChatViewModel(getMessagesUseCase, sendMessageUseCase, generateAutoReplyUseCase, deleteMessageUseCase)
         testDispatcher.scheduler.advanceUntilIdle()
     }
 
@@ -99,7 +102,7 @@ class ChatViewModelTest {
         
         every { getMessagesUseCase() } returns flowOf(messages)
         
-        val newViewModel = ChatViewModel(getMessagesUseCase, sendMessageUseCase, generateAutoReplyUseCase)
+        val newViewModel = ChatViewModel(getMessagesUseCase, sendMessageUseCase, generateAutoReplyUseCase, deleteMessageUseCase)
         testDispatcher.scheduler.advanceUntilIdle()
 
         newViewModel.uiState.test {
@@ -118,8 +121,10 @@ class ChatViewModelTest {
         val constructor = ChatViewModel::class.java.constructors[0]
         val paramTypes = constructor.parameterTypes
         
-        assertEquals(3, paramTypes.size)
+        assertEquals(4, paramTypes.size)
         assertTrue(paramTypes.contains(GetMessagesUseCase::class.java))
         assertTrue(paramTypes.contains(SendMessageUseCase::class.java))
+        assertTrue(paramTypes.contains(GenerateAutoReplyUseCase::class.java))
+        assertTrue(paramTypes.contains(DeleteMessageUseCase::class.java))
     }
 }

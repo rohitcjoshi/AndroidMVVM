@@ -2,6 +2,7 @@ package com.assignment.chatapp.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.assignment.chatapp.domain.usecase.DeleteMessageUseCase
 import com.assignment.chatapp.domain.usecase.GenerateAutoReplyUseCase
 import com.assignment.chatapp.domain.usecase.GetMessagesUseCase
 import com.assignment.chatapp.domain.usecase.SendMessageUseCase
@@ -25,7 +26,8 @@ import javax.inject.Inject
 class ChatViewModel @Inject constructor(
     private val getMessagesUseCase: GetMessagesUseCase,
     private val sendMessageUseCase: SendMessageUseCase,
-    private val generateAutoReplyUseCase: GenerateAutoReplyUseCase
+    private val generateAutoReplyUseCase: GenerateAutoReplyUseCase,
+    private val deleteMessageUseCase: DeleteMessageUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ChatUiState())
@@ -68,6 +70,15 @@ class ChatViewModel @Inject constructor(
                     generateAutoReplyUseCase(text)
                 }
             }
+        }
+    }
+
+    /**
+     * Deletes a message using the DeleteMessageUseCase.
+     */
+    fun deleteMessage(messageId: String) {
+        viewModelScope.launch {
+            deleteMessageUseCase(messageId)
         }
     }
 }

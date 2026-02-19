@@ -2,6 +2,7 @@ package com.assignment.chatapp.di
 
 import com.assignment.chatapp.data.repository.ChatRepositoryImpl
 import com.assignment.chatapp.domain.repository.ChatRepository
+import com.assignment.chatapp.domain.usecase.DeleteMessageUseCase
 import com.assignment.chatapp.domain.usecase.GenerateAutoReplyUseCase
 import com.assignment.chatapp.domain.usecase.GetMessagesUseCase
 import com.assignment.chatapp.domain.usecase.SendMessageUseCase
@@ -37,6 +38,12 @@ abstract class AppModule {
         @Singleton
         fun provideGenerateAutoReplyUseCase(chatRepository: ChatRepository): GenerateAutoReplyUseCase {
             return GenerateAutoReplyUseCase(chatRepository)
+        }
+
+        @Provides
+        @Singleton
+        fun provideDeleteMessageUseCase(chatRepository: ChatRepository): DeleteMessageUseCase {
+            return DeleteMessageUseCase(chatRepository)
         }
     }
 }

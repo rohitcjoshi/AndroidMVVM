@@ -42,7 +42,8 @@ class MainActivity : ComponentActivity() {
                     ChatScreen(
                         uiState = uiState,
                         onInputChange = viewModel::updateInput,
-                        onSendClick = viewModel::sendMessage
+                        onSendClick = viewModel::sendMessage,
+                        onMessageDelete = viewModel::deleteMessage
                     )
                 }
             }
