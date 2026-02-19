@@ -61,10 +61,12 @@ class ChatViewModel @Inject constructor(
             // Clear input field after message is sent
             _uiState.update { it.copy(currentInput = "") }
 
-            // Initiate automatic reply after 5 seconds
-            launch {
-                delay(5000)
-                generateAutoReplyUseCase(text)
+            // Only initiate automatic reply if message is not empty
+            if (text.trim().isNotEmpty()) {
+                launch {
+                    delay(5000)
+                    generateAutoReplyUseCase(text)
+                }
             }
         }
     }

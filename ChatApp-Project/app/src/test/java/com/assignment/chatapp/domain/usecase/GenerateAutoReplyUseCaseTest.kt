@@ -42,7 +42,7 @@ class GenerateAutoReplyUseCaseTest {
     @Test
     fun `invoke with whitespace only returns false and does not add message`() = runTest {
         useCase.invoke("   ")
-        coVerify(exactly = 1) { repository.addMessage(any()) }
+        coVerify(exactly = 0) { repository.addMessage(any()) }
     }
 
     @Test
